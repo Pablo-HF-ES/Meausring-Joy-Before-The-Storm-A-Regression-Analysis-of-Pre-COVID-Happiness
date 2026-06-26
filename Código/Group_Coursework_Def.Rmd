@@ -1,0 +1,520 @@
+---
+title: "Group CourseWork"
+author: "Pablo Hernández Fernández"
+date: "`r Sys.Date()`"
+output:
+   html_document:
+    toc: true
+    toc_float: true
+    theme: sandstone
+header-includes:
+   - \usepackage{xcolor}
+   - \usepackage{amsmath, amssymb}
+---
+
+# 4. Statistical Analysis
+
+First, we will import the data and show its different variables.
+
+```{r}
+setwd("C:/Users/phf14_dcq7b60/Desktop")
+# setwd("C:/Users/anisa/Desktop/ExComp")
+
+happiness_report <- read.csv(file='2019.csv', header=TRUE, sep=",")
+
+# There is a lot of data so it's too big that we only show the first ones.
+
+head(happiness_report)
+
+attach(happiness_report)
+```
+
+Then, we plot different plots between the variable Score that represent Happiness score and will be our response variable and the other variables that will be our covariates.
+
+Our aim is to see if there exist any linear relationship between these.
+
+```{r fig.width=12, fig.height=14}
+
+# Set layout: 3 rows, 2 columns
+par(mfrow = c(3, 2), mar = c(4,4,3,1))  # Adjust margins if needed
+
+# 1. GDP per capita
+
+plot(happiness_report$GDP.per.capita, happiness_report$Score,
+     col = "steelblue", pch = 19,
+     main = "Happiness vs GDP per Capita",
+     xlab = "GDP per Capita",
+     ylab = "Happiness Score")
+abline(lm(Score ~ GDP.per.capita, data = happiness_report), col = "darkblue", lwd = 2)
+
+# 2. Social support
+
+plot(happiness_report$Social.support, happiness_report$Score,
+     col = "forestgreen", pch = 19,
+     main = "Happiness vs Social Support",
+     xlab = "Social Support",
+     ylab = "Happiness Score")
+abline(lm(Score ~ Social.support, data = happiness_report), col = "darkgreen", lwd = 2)
+
+# 3. Healthy life expectancy
+plot(happiness_report$Healthy.life.expectancy, happiness_report$Score,
+     col = "darkorange", pch = 19,
+     main = "Happiness vs Healthy Life Expectancy",
+     xlab = "Healthy Life Expectancy",
+     ylab = "Happiness Score")
+abline(lm(Score ~ Healthy.life.expectancy, data = happiness_report), col = "orangered", lwd = 2)
+
+# 4. Freedom to make life choices
+plot(happiness_report$Freedom.to.make.life.choices, happiness_report$Score,
+     col = "mediumvioletred", pch = 19,
+     main = "Happiness vs Freedom of Choice",
+     xlab = "Freedom to Make Life Choices",
+     ylab = "Happiness Score")
+abline(lm(Score ~ Freedom.to.make.life.choices, data = happiness_report), col = "purple", lwd = 2)
+
+# 5. Generosity
+plot(happiness_report$Generosity, happiness_report$Score,
+     col = "darkcyan", pch = 19,
+     main = "Happiness vs Generosity",
+     xlab = "Generosity",
+     ylab = "Happiness Score")
+abline(lm(Score ~ Generosity, data = happiness_report), col = "cyan", lwd = 2)
+
+# 6. Perceptions of corruption
+plot(happiness_report$Perceptions.of.corruption, happiness_report$Score,
+     col = "brown", pch = 19,
+     main = "Happiness vs Perceptions of Corruption",
+     xlab = "Perceptions of Corruption",
+     ylab = "Happiness Score")
+abline(lm(Score ~ Perceptions.of.corruption, data = happiness_report), col = "firebrick", lwd = 2)
+```
+
+Next, we perform individual linear regression between Score and each of the covariates and see the values that we get.
+
+```{r}
+# 1. GDP per capita        
+lm_score_GDP <- lm (Score ~ GDP.per.capita , data = happiness_report)
+
+lm_score_GDP  # Each additional unit in GDP per capita is associated with an expected increase of 2,2181 in the Score,
+
+              #Intercept 3.3993 expected value of the Score when GDP per capita is 0 
+
+summary(lm_score_GDP)
+
+
+# R-squared coefficient: 0.6303. 
+
+# p-values for slope and intercept are approximately 0 so we can reject null hypothesis that states that the slope and intercept can be 0. Which means that there is a significant relationship between GDP per capita and Score.
+```
+
+
+```{r}
+# 2. Social support
+
+lm_score_social <- lm (Score ~ Social.support , data = happiness_report)
+
+lm_score_social   # Each additional unit in GDP per capita is associated with an expected increase of 2.8910 in the Score,
+
+              #Intercept 1.9124 expected value of the Score when GDP per capita is 0 
+
+summary(lm_score_social)
+
+  
+   
+
+# R-squared coefficient: 0.6038. 
+
+# p-values for slope and intercept are approximately 0 so we can reject null hypothesis that states that the slope and intercept can be 0. Which means that there is a significant relationship between GDP per capita and Score.
+```
+
+
+```{r}
+# 3. Healthy life expectancy
+
+lm_score_healthy <- lm (Score ~ Healthy.life.expectancy , data = happiness_report)
+
+lm_score_healthy # Each additional unit in GDP per capita is associated with an expected increase of 3.5854 in the Score,
+              #Intercept 2.8068 expected value of the Score when GDP per capita is 0 
+
+
+summary(lm_score_healthy)
+
+
+
+# R-squared coefficient: 0.6082. 
+
+# p-values for slope and intercept are approximately 0 so we can reject null hypothesis that states that the slope and intercept can be 0.
+```
+
+
+```{r}
+# 4. Freedom to make life choices
+
+lm_score_freedom <- lm (Score ~ Freedom.to.make.life.choices , data = happiness_report)
+
+lm_score_freedom # Each additional unit in GDP per capita is associated with an expected increase of 4.4026 in the Score,
+              #Intercept 3.6788 expected value of the Score when GDP per capita is 0 
+
+
+summary(lm_score_freedom)
+
+
+
+# R-squared coefficient: 0.3212. 
+
+# p-values for slope and intercept are approximately 0 so we can reject null hypothesis that states that the slope and intercept can be 0.
+```
+
+
+```{r}
+# 5. Generosity
+
+lm_score_generosity <- lm (Score ~ Generosity , data = happiness_report)
+
+lm_score_generosity # Each additional unit in GDP per capita is associated with an expected increase of 0.8861 in the Score,
+              #Intercept 5.2433 expected value of the Score when GDP per capita is 0 
+
+summary(lm_score_generosity)
+
+
+# R-squared coefficient: 0.005749.Only 0.57% of the variability in the Score is explained by Generosity.
+
+# p-values for intercept are approximately 0 so we can reject null hypothesis that states that the intercept can be 0. However p-value for the slope is 0.347 so that means that slope can be 0 and we cannot reject the null hypothesis.
+
+# Apparently, we do not see a linear relationship between generosity and happiness score.
+```
+
+
+```{r}
+# 6. Perceptions of corruption
+
+lm_score_corruption <- lm (Score ~ Perceptions.of.corruption , data = happiness_report)
+
+lm_score_corruption # Each additional unit in GDP per capita is associated with an expected increase of 4.5403 in the Score,
+
+              #Intercept 4.9049 expected value of the Score when GDP per capita is 0 
+
+
+summary(lm_score_corruption)
+
+# R-squared coefficient: 0.1487. 
+
+# p-values for slope and intercept are approximately 0 so we can reject null hypothesis that states that the slope and intercept can be 0.
+```
+
+Now, we perform a multilinear regression of the response variable Score and all the covariates that we have used above.
+
+
+```{r}
+All_covariates <- lm (Score ~ GDP.per.capita+Social.support+Healthy.life.expectancy+Freedom.to.make.life.choices+Generosity+Perceptions.of.corruption , data = happiness_report)
+
+All_covariates 
+
+summary(All_covariates)
+
+# Adjusted R-squared coefficient: 0.7703. 
+
+# Covariates that could be rejected are generosity (0.326709) and perceptions of corruption (0.075053) for a significance level of 0.05.
+```
+
+Now, we use the step algorithm for model selection and see what covariates are removed.
+
+```{r}
+
+All_covariates_2 <- step (All_covariates, direction = 'both') # All covariates except generosity
+
+summary(All_covariates_2)
+
+
+```
+
+We see that generosity could be discarded in having a linear effect on Score.
+Meanwhile perception of corruption is not discarded and that differs from the analysis of the t-test that we have performed above using *lm* and *summary* functions.
+
+## 4.2 Regression diagnostics
+
+At this point we have interpreted and made some interesting conclusions from the fitted model. One is that the model might be simplified because some covariates like Generosity or Perceptions of corruption  seem to have  little effect on the response. However the estimation and inference results supporting those conclusions rely on several assumptions that we listed in Section 3. and now we have to evaluate.
+
+Before taking any decision we need to check these assumptions using the so-called *regression diagnostics*. We divide the potential problems into three categories:
+
+**- Errors**: We have assumed that errors are normally distributed, are independent and have constant variance.
+
+**- Model**: We have assumed that the conditional mean of the response is a linear function of the covariates, apart from some noise.
+
+**- Unusual observations**: Sometimes we have few observations that do not fit the model, behaving very different from the other ones. These few observations might have a huge effect when fitting the model.
+Diagnostics can be graphical or numerical (often formulating hypothesis tests). The first type are considered as exploratory tools while the second type becomes confirmatory. Regression diagnostics often suggest improvements, which means that model building is often an iterative and interactive process.
+
+### 4.2.1 Constant Variance Assumption
+
+As the errors are not observed, we check the error assumptions using the residuals, defined as $e_i$ = $\hat{Y}_i$ − $Y_{i}$.To check for possible non-constant variance, we can look at scatter plots of standardized_residuals (so they have variance 1).
+
+```{r}
+
+# Computing the standardized_residuals
+standardized_residuals <- rstandard(All_covariates)
+
+plot(fitted.values(All_covariates),standardized_residuals, xlab = 'fitted values', ylab = 'standarized residuals',pch=19,col='red')
+abline(h=0,col='black')
+```
+What we infer from this graph is the following:
+
+- Residuals do not form a systematic pattern
+
+- The variance of residuals seems consistent across fitted values, that is, there is no strong evidence of increasing or decreasing spread.
+
+- Most points hover around the 0 line, which means that the residuals are not very large.
+
+Therefore, we can interpret this as a random pattern and so we can assume constant variance.
+
+### 4.2.2. Independence assumption
+
+To check for independence in this analysis, we use one graph and one test. 
+
+The graph is again a scatter plot of the standardized_residuals but now, considering the observation number (in this case the variable $Overall.rank$) in the horizontal axis. If the errors were independent we should be able see a random pattern in the graph.
+
+The test will be the Durbin-Watson test (because we have a sample of more than 40 data points) that formulates the null hypothesis of uncorrelation. 
+
+```{r}
+library(lmtest)
+
+plot(Overall.rank,rstandard(All_covariates), xlab = 'Observations', 
+     ylab = 'Standarized residuals')
+```
+
+Our fist impression form the graph is that we see almost a linear decrease in the residuals as the number of observations gets bigger, therefore we expect the errors to be dependent between each other since we see a pattern.
+
+```{r}
+# Durbin-Watson test
+
+dwtest(All_covariates)
+```
+The Durbin-Watson test confirms what we inferred from our graph, since p-values is less than a significance level of 0.05, therefore we can reject the null hypothesis of uncorrelation.
+
+To conclude, errors depend between each other.
+
+### 4.2.3 Normality assumption
+
+To verify the normality of the residuals we again use one graph and one test. 
+
+The graph is the probability plot produced using the $qqnorm$ function. 
+
+A normality test that is adequate for these data (sample size is n = 156) might be the $Kolmogorov-Smirnov$ test, computed using the ks.test function. The null hypothesis confirms the normality of the errors
+
+```{r}
+residuals_All_covariates <- residuals(All_covariates)
+
+# QQ-plots
+
+qqnorm(residuals_All_covariates)
+qqline(residuals_All_covariates, col = "blue", lwd = 2)
+```
+As we see a clear linear pattern, we can infer that our errors follow a Normal distribution.
+
+```{r}
+# Kolmogorov-Smirnov test
+ks.test(residuals_All_covariates, "pnorm", mean = mean(residuals_All_covariates), 
+        sd = sd(residuals_All_covariates))
+```
+
+The Kolmogorov-Smirnov test confirms the normality of the residuals since we get a p-value of 0.6658 and we cannot reject the null hypothesis.
+
+### 4.2.4 Linearity Assumption
+
+A non-linear relationship between the response and the covariates would mean that the fitted model is not adequate for these data. This possible problem could be detected by inspecting the so called $residual+component$ plots. These plots can be obtained using the $crPlots$ function within the $car$ package.
+
+```{r}
+library(car)
+
+# Component + Residual plots
+
+crPlots(All_covariates)
+```
+
+After checking the graphs, we can confirm that there is indeed a strong linear relationship between the response variable and each covariate, although it is more pronounced in some cases than in others. 
+
+The only one in which we see a significance deviation from the linear pattern is
+Perceptions.of.corruption while the other deviations are mainly due to outliers.
+
+### 4.2.5 Unusual observations
+
+Sometimes few observations behave very different from the rest, and might not fit well the model - these are usually referred as outliers. It might also happen that there are observations whose presence might change the fit of the model in a substantive manner - these are called influential observations. A leverage observation is unusual in the covariate space, having the potential to influence the fit. An individual observation can be none, one some of these types, and in that case they need to be identified and monitored.
+
+In practice, outliers correspond to observations with large residuals. To decide about this we need to look at suitable normalised values. For instance, looking at the standardised residuals, outliers correspond to values outside the interval (-2.5, 2.5).
+
+```{r}
+# Outliers
+indices_outliers <- which(abs(standardized_residuals) > 2.5)
+indices_outliers
+```
+
+The outliers are 130,148,152,153.
+
+Influential observations can be located in practice by computing influence measures. The most common is the Cook’s distance, computed in R using the $cooks.distance$ function. Influential observations corresponds to large values of such distance.
+
+To measure the leverage of an observation we look at the diagonal of the matrix **H** = **X(X′X) ^−1X′**, which can be computed using the $hatvalues$ function.
+
+The $car$ package provides the $influenceIndexPlot$ function, to compute and visualize these measures, making it easier to identify possible unusual observations.
+
+```{r}
+influenceIndexPlot(All_covariates)
+```
+
+Seeing Cook's distance, we can assume as potential influential observations the 148th and the 152th.
+
+Analysing the hat function we can detect the 135th and the 149th as potential levarage observations.
+
+### 4.2.5. Removing unusual observations
+
+Outliers and influential observations need to be monitored and treated. Sometimes they are due to errors in the data collection or edition, in which case they should be corrected. There might also be situations where these observations indicate that the sample we have is not representative - these unusual observations might belong to one part of the population that is not represented well in the sample. All these situations need to be treated. Sometimes the solution is to remove the very critical observations and fit again the model. 
+
+First we start removing the most significant outlier and we evaluate again our model to perform in this new model the same process and we keep doing this until we are satisfied.
+
+```{r} 
+# Removing 152th observation from happiness_report
+
+happiness_report_2<-happiness_report[-c(152),]
+All_covariates_2 <- lm(Score ~ GDP.per.capita+Social.support+Healthy.life.expectancy+Freedom.to.make.life.choices+Generosity+Perceptions.of.corruption , data = happiness_report_2)
+
+summary(All_covariates_2)
+
+# Adjusted R-squared coefficient is now 0.7796 and we have improve significantly our model. 
+
+# We also get that we could discard generosity as a covariate using a  significant level of 0.05.
+
+standardized_residuals_2 <- rstandard(All_covariates_2)
+indices_outliers <- which(abs(standardized_residuals_2) > 2.5)
+indices_outliers
+
+
+```
+
+
+
+```{r}
+# Removing 148th observation from happiness_report_2
+
+happiness_report_3<-happiness_report_2[-c(148),]
+
+
+All_covariates_3 <- lm(Score ~ GDP.per.capita+Social.support+Healthy.life.expectancy+Freedom.to.make.life.choices+Generosity+Perceptions.of.corruption , data = happiness_report_3)
+summary(All_covariates_3)
+
+# Adjusted R-squared coefficient is now 0.7938 and we have improve significantly our model. 
+
+# We also get that we could discard generosity as a covariate using a  significant level of 0.05.
+
+standardized_residuals_3 <- rstandard(All_covariates_3)
+indices_outliers <- which(abs(standardized_residuals_3) > 2.5)
+indices_outliers
+
+```
+
+
+
+```{r}
+# Removing 130th observation from happiness_report_3
+
+happiness_report_4 <-happiness_report_3[-c(130),]
+
+
+All_covariates_4 <- lm(Score ~ GDP.per.capita+Social.support+Healthy.life.expectancy+Freedom.to.make.life.choices+Generosity+Perceptions.of.corruption , data = happiness_report_4)
+summary(All_covariates_4)
+
+# Adjusted R-squared coefficient is now 0.8023 and we have improve significantly our model. 
+
+# We also get that we could discard generosity as a covariate using a  significant level of 0.05.
+
+standardized_residuals_4 <- rstandard(All_covariates_4)
+indices_outliers <- which(abs(standardized_residuals_4) > 2.5)
+indices_outliers
+
+```
+
+```{r}
+# Removing 76th observation from happiness_report_4
+
+happiness_report_5<-happiness_report_4[-c(76),]
+
+
+All_covariates_5 <- lm(Score ~ GDP.per.capita+Social.support+Healthy.life.expectancy+Freedom.to.make.life.choices+Generosity+Perceptions.of.corruption , data = happiness_report_5)
+summary(All_covariates_5)
+
+# Adjusted R-squared coefficient is now 0.8113 and we have improve our model. 
+
+# We also get that we could discard generosity as a covariate using a  significant level of 0.05.
+
+standardized_residuals_5 <- rstandard(All_covariates_5)
+indices_outliers <- which(abs(standardized_residuals_5) > 2.5)
+indices_outliers
+
+```
+
+```{r}
+# Removing 34th observation from happiness_report_5
+
+happiness_report_6<-happiness_report_5[-c(34),]
+
+
+All_covariates_6 <- lm(Score ~ GDP.per.capita+Social.support+Healthy.life.expectancy+Freedom.to.make.life.choices+Generosity+Perceptions.of.corruption , data = happiness_report_6)
+summary(All_covariates_6)
+
+# Adjusted R-squared coefficient is now 0.8199 and we have improve our model. 
+
+# We also get that we could discard generosity as a covariate using a  significant level of 0.05.
+
+standardized_residuals_6 <- rstandard(All_covariates_6)
+indices_outliers <- which(abs(standardized_residuals_6) > 2.5)
+indices_outliers
+
+```
+
+```{r}
+# Removing 128th observation from happiness_report_6
+
+happiness_report_7<-happiness_report_6[-c(128),]
+
+
+All_covariates_7 <- lm(Score ~ GDP.per.capita+Social.support+Healthy.life.expectancy+Freedom.to.make.life.choices+Generosity+Perceptions.of.corruption , data = happiness_report_7)
+summary(All_covariates_7)
+
+# Adjusted R-squared coefficient is now 0.8268 and we have improve our model. 
+
+# We also get that we could discard generosity as a covariate using a  significant level of 0.05.
+
+standardized_residuals_7 <- rstandard(All_covariates_7)
+indices_outliers <- which(abs(standardized_residuals_7) > 2.5)
+indices_outliers
+
+```
+
+Since we do not have a lot more significant outliers that could interfere with our model, we stop removing outliers and we keep this as our definitive model.
+
+We have a R-squared coefficient of 0.8268 that is fairly good fit for our model.
+Also as we have said before, covariates that could be removed will be generosity using a significance level of 0.05.
+
+
+```{r}
+# Removing 147th observation from happiness_report_7
+
+happiness_report_def<-happiness_report_7[-c(147),]
+
+
+All_covariates_def <- lm(Score ~ GDP.per.capita+Social.support+Healthy.life.expectancy+Freedom.to.make.life.choices+Generosity+Perceptions.of.corruption , data = happiness_report_def)
+summary(All_covariates_def)
+
+# Adjusted R-squared coefficient is now 0.8352 and we have improve our model. 
+
+# We also get that we could discard generosity as a covariate using a  significant level of 0.05.
+
+standardized_residuals_def <- rstandard(All_covariates_def)
+indices_outliers <- which(abs(standardized_residuals_def) > 2.5)
+indices_outliers
+
+influenceIndexPlot(All_covariates_def)
+
+```
+
+Since we do not have more significant outliers that could interfere with our model, we stop removing outliers and we keep this as our definitive model.
+
+We have a R-squared coefficient of 0.8352 that is fairly good fit for our model.
+Also as we have said before, covariates that could be removed will be generosity using a significance level of 0.05.
